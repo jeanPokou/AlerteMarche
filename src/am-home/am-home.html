@@ -1,0 +1,54 @@
+<link rel="import" href="am-home-style.html">
+<link rel="import" href="../am-carousel/am-carousel.html">
+<link rel="import" href="../am-search/am-search.html">
+<link rel="import" href="../am-card/am-card.html">
+<link rel="import" href="../../bower_components/app-layout/app-grid/app-grid-style.html">
+<link rel="import" href="polymer-bootstrap-min.html">
+<dom-module id="am-home">
+
+    <template>
+
+<style include="am-home-style"> </style>
+<style include="app-grid-style"> </style>
+  <style include="polymer-bootstrap-min"> </style>
+<!-- <am-carousel></am-carousel> -->
+<div class="centered-container">
+          <ul class="app-grid">
+            <li class="item"> 
+              
+              <am-carousel></am-carousel>
+            </li>
+            <li class="item">
+              <am-search></am-search>
+            </li>
+            <li class="item">
+              <template is="dom-repeat" items="[[cards]]">
+        <div class="col-md-4 col-sm-4 col-sm-6 col-xs-12">
+  
+          <am-card><am-card>
+        </div>
+                      </template>
+    </li>
+    </template>
+    </ul>
+    </div>
+
+    <!-- <am-search></am-search> -->
+    <!-- <template is="dom-repeat" items="[[categories]]" strip-whitespace> -->
+    <!--   <div class="item"> -->
+    <!--     <a class="image-link" href$="/list/[[item.name]]"> -->
+    <!--       <shop-image src="[[item.image]]" alt="[[item.title]]" placeholder-img="[[item.placeholder]]"></shop-image> -->
+    <!--     </a> -->
+    <!--     <h2>[[item.title]]</h2> -->
+    <!--     <shop-button> -->
+    <!--       <a aria-label$="[[item.title]] Shop Now" href$="/list/[[item.name]]">Shop Now</a> -->
+    <!--     </shop-button> -->
+    <!--   </div> -->
+    <!-- </template> -->
+
+    </template>
+
+    <script src="am-home.js">
+    </script>
+
+</dom-module>

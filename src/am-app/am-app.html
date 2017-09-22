@@ -1,0 +1,157 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/effects/waterfall.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/app-layout/helpers/helpers.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../shop-category-data.html">
+<!-- Since 'home' is the default route, eagerly load it. -->
+<link rel="import" href="../shop-home.html">
+<link rel="import" href="am-app-style.html">
+<link rel="import" href="../am-carousel/am-carousel.html">
+<link rel="import" href="../am-home/am-home.html">
+
+<dom-module id="am-app">
+
+    <template>
+
+    <style include="am-app-style"> </style>
+
+    <shop-analytics key="UA-39334307-16"></shop-analytics>
+    <!--
+      app-location and app-route elements provide the state of the URL for the app.
+    -->
+    <app-location route="{{route}}"></app-location>
+    <app-route
+        route="{{route}}"
+        pattern="/:page"
+        data="{{routeData}}"
+        tail="{{subroute}}"></app-route>
+
+    <iron-media-query query="max-width: 767px" query-matches="{{smallScreen}}"></iron-media-query>
+
+    <!--
+      shop-category-data provides the list of categories.
+    -->
+    <shop-category-data categories="{{categories}}"></shop-category-data>
+
+    <!--
+      shop-cart-data maintains the state of the user's shopping cart (in localstorage) and
+      calculates the total amount.
+    -->
+    <shop-cart-data
+        id="cart"
+        cart="{{cart}}"
+        num-items="{{numItems}}"
+        total="{{total}}"></shop-cart-data>
+
+    <div class="bg-header col-md-12">
+    </div>
+
+
+    <!-- app header -->
+<!-- effects="waterfall" condenses fixed -->
+    <app-header role="navigation" id="header" effects="waterfall" fixed condenses >
+
+      <app-toolbar>
+        <div class="left-bar-item">
+          <paper-icon-button
+            class="menu-btn"
+            icon="menu"
+            on-click="_toggleDrawer"
+            aria-label="Categories">
+          </paper-icon-button>
+          <a class="back-btn" href="/list/[[categoryName]]" tabindex="-1">
+            <paper-icon-button icon="arrow-back" aria-label="Go back"></paper-icon-button>
+          </a>
+        </div>
+        <div class="logo" main-title><a href="/" aria-label="SHOP Home">ALERTE MARCHE</a></div>
+
+        <div class="cart-btn-container">
+<a href="/cart" >
+            <paper-icon-button icon="notifications" aria-label$="Shopping cart: [[_computePluralizedQuantity(numItems)]]"></paper-icon-button>
+          </a>
+         <div class="cart-badge" aria-hidden="true" hidden$="[[!numItems]]">[[numItems]]</div>
+       </div>
+       <!-- avatar -->
+       <div class="avatar">
+       </div>
+
+
+      </app-toolbar>
+      <!-- /app header -->
+
+      <!-- Lazy-create the tabs for larger screen sizes. -->
+
+      <div id="tabContainer" sticky$="[[_shouldShowTabs]]" hidden$="[[!_shouldShowTabs]]">
+        <template is="dom-if" if="[[_shouldRenderTabs]]">
+          <shop-tabs
+            selected="[[categoryName]]"
+            attr-for-selected="name">
+            <template is="dom-repeat" items="[[categories]]" as="category" initial-count="4">
+              <shop-tab name="[[category.name]]">
+                <a href="/list/[[category.name]]">[[category.title]]</a>
+              </shop-tab>
+            </template>
+    </shop-tabs>
+    </template>
+    </div>
+
+    </app-header>
+
+    <!-- Lazy-create the drawer for small screen sizes. -->
+    <template is="dom-if" if="[[_shouldRenderDrawer]]">
+      <!-- Two-way bind `drawerOpened` since app-drawer can update `opened` itself. -->
+      <app-drawer opened="{{drawerOpened}}" swipe-open tabindex="0">
+        <iron-selector role="navigation" class="drawer-list" selected="[[categoryName]]" attr-for-selected="name">
+          <template is="dom-repeat" items="[[categories]]" as="category" initial-count="4">
+            <a name="[[category.name]]" href="/list/[[category.name]]">[[category.title]]</a>
+          </template>
+    </iron-selector>
+    </app-drawer>
+    </template>
+
+    <!-- carousel view -->
+    <!-- <am-carousel name="carousel"></am-carousel> -->
+
+    <am-home name="home" categories="[[categories]]">></am-home>
+    <iron-pages role="main" selected="[[page]]" attr-for-selected="name" selected-attribute="visible">
+        <!-- <1!-- home view --1> -->
+        <!-- <shop-home name="home" categories="[[categories]]"></shop-home> -->
+        <!-- <1!-- list view of items in a category --1> -->
+        <!-- <shop-list name="list" route="[[subroute]]" offline="[[offline]]"></shop-list> -->
+        <!-- <1!-- detail view of one item --1> -->
+        <!-- <shop-detail name="detail" route="[[subroute]]" offline="[[offline]]"></shop-detail> -->
+        <!-- <1!-- cart view --1> -->
+        <!-- <shop-cart name="cart" cart="[[cart]]" total="[[total]]"></shop-cart> -->
+        <!-- <1!-- checkout view --1> -->
+        <!-- <shop-checkout name="checkout" cart="[[cart]]" total="[[total]]" route="{{subroute}}"></shop-checkout> -->
+    </iron-pages>
+
+    <!-- <footer> -->
+    <!--     <a href="https://www.polymer-project.org/1.0/toolbox/">Made by Polymer</a> -->
+    <!--     <div class="demo-label">Demo Only</div> -->
+    <!-- </footer> -->
+
+    <!-- a11y announcer -->
+    <div class="announcer" aria-live="assertive">[[_a11yLabel]]</div>
+
+    </template>
+    <script src="am-app.js">
+    </script>
+
+</dom-module>

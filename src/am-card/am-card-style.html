@@ -1,0 +1,51 @@
+<!-- <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html" > -->
+<!-- <link rel="import" href="../../bower_components/paper-styles/paper-styles.html" > -->
+<dom-module id="am-card-style">
+
+
+    <template>
+  
+    <style >
+
+      :host{
+        display:block;
+        box-shadow:2px 3px 4px #ccc; 
+        z-index:9; 
+      }
+      [dateTime]{
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        background-color:orange;
+        color:#ccc;
+        z-index:12;
+        position:absolute;
+        float:right;
+        margin:5px;
+      }
+
+      [genre]{
+        height:20px;
+        position:absolute;
+        z-index:12;
+        width:100%;
+        background-color:white;
+
+      }
+
+
+   
+  [main]{
+    background-color:var(--paper-grey-100);
+    min-height:250px;
+    margin-bottom:5px;
+  }
+  .image {
+    width:100%;
+    min-height:150px;
+  }
+  
+ </style> 
+    </template>
+
+</dom-module>

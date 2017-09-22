@@ -1,0 +1,38 @@
+
+<dom-module id="am-search-style">
+  <template>
+     <style>
+       :host{
+         display:block;
+         margin-top:15px;
+         margin-bottom:15px;
+         <!-- border:1px solid red; -->
+         height:50px;
+         padding:25px;
+       }
+
+       .big{
+         color:red;
+         font-size:13px;
+       }
+
+      .bg-light {
+                background: #009688;
+                color: #333;
+            }
+
+
+            .bg-dark, .bg-light, .bg-image {
+                       padding: 1em;
+                       margin: 0.5em 0;
+                   }
+                  
+      .bg-light paper-searchbox {
+          --paper-searchbox-background: var(--paper-searchbox-dark-background);
+          --paper-searchbox-color: var(--paper-searchbox-dark-color);
+          --paper-searchbox-background-hover: var(--paper-searchbox-dark-background-hover);
+          --paper-searchbox-color-hover: var(--paper-searchbox-dark-color-hover);
+      }
+     </style> 
+  </template>
+</dom-module>

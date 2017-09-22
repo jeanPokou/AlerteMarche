@@ -1,0 +1,7 @@
+Polymer({
+
+  
+  is:'am-card',
+
+ 
+});
